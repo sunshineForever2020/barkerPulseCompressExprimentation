@@ -1,0 +1,18 @@
+%% 时域互相关
+
+% 发射信号构建， 1s长脉冲，载波f0=10hz， 总时长15s， 采样率fs 1khz
+fs = 1e3;
+tmax = 15;
+tt = 0:1/fs:tmax-1/fs;
+f0 = 10;
+T = 1;
+t = 0:1/fs:T-1/fs;
+pls = cos(2*pi*f0*t);
+
+% 接收信号构建， 5s后碰到目标，
+t0 = 5;
+dt = 2*T;
+lgs = t0:dt:tmax;
+att = 1.1;
+ref = 0.2;
+rpls = pulstran(tt,[lgs;ref*att.^-(lgs-t0)]',pls,fs);
